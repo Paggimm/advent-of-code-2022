@@ -1,5 +1,9 @@
-import 'package:day1/day1.dart' as day1;
+import 'package:day1/CaloriesCalculator.dart';
+import 'package:day1/FileLoader.dart' as FileLoader;
 
-void main(List<String> arguments) {
-  print('Hello world: ${day1.calculate()}!');
+Future<void> main(List<String> arguments) async {
+  var input = await FileLoader.readInput();
+  var calories = CalculateCalories(input);
+
+  print("Biggest Calories: ${calories[0]}, Second biggest Calories: ${calories[1]}, Third biggest Calories: ${calories[2]}");
 }
