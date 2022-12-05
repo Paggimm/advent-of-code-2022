@@ -1,7 +1,8 @@
 ﻿open day1
+open day2
 
 module Main =
     [<EntryPoint>]
     let main args =
-        RunDay1
+        RunDay2
         0
