@@ -1,36 +1,30 @@
 class Pairing {
-  RPS opponent;
-  RPS player;
+  Decision opponent;
+  NeededResult neededResult;
 
-  Pairing(this.opponent, this.player);
+  Pairing(this.opponent, this.neededResult);
 
-  RPS get getOpponent {
-    return opponent;
-  }
-
-  RPS get getPlayer {
-    return player;
-  }
-
+  /// calculates the points for this pair
   int evaluateResult() {
-    var bonus = getBonusForDecision(player);
+    var playerDecision = _getPlayerDecision(opponent, neededResult);
+    var bonus = _getBonusForDecision(playerDecision);
 
-    if (opponent == player) {
+    if (opponent == playerDecision) {
       return bonus + 3;
-    } else if (opponent == RPS.paper) {
-      if (player == RPS.rock) {
+    } else if (opponent == Decision.paper) {
+      if (playerDecision == Decision.rock) {
         return bonus + 0;
       } else {
         return bonus + 6;
       }
-    } else if (opponent == RPS.rock) {
-      if (player == RPS.paper) {
+    } else if (opponent == Decision.rock) {
+      if (playerDecision == Decision.paper) {
         return bonus + 6;
       } else {
         return bonus + 0;
       }
     } else {
-      if (player == RPS.rock) {
+      if (playerDecision == Decision.rock) {
         return bonus + 6;
       } else {
         return bonus + 0;
@@ -38,40 +32,82 @@ class Pairing {
     }
   }
 
-  int getBonusForDecision(RPS decision) {
+  /// creates the players decision according to opponent decision and needed result
+  Decision _getPlayerDecision(
+      Decision opponentDecision, NeededResult neededResult) {
+    if (opponentDecision == Decision.rock) {
+      switch (neededResult) {
+        case NeededResult.lose:
+          return Decision.scissor;
+        case NeededResult.draw:
+          return Decision.rock;
+        case NeededResult.win:
+          return Decision.paper;
+      }
+    } else if (opponentDecision == Decision.paper) {
+      switch (neededResult) {
+        case NeededResult.win:
+          return Decision.scissor;
+        case NeededResult.lose:
+          return Decision.rock;
+        case NeededResult.draw:
+          return Decision.paper;
+      }
+    } else {
+      switch (neededResult) {
+        case NeededResult.draw:
+          return Decision.scissor;
+        case NeededResult.win:
+          return Decision.rock;
+        case NeededResult.lose:
+          return Decision.paper;
+      }
+    }
+  }
+
+  int _getBonusForDecision(Decision decision) {
     switch (decision) {
-      case RPS.rock:
+      case Decision.rock:
         return 1;
-      case RPS.paper:
+      case Decision.paper:
         return 2;
-      case RPS.scissor:
+      case Decision.scissor:
         return 3;
     }
   }
+
+  @override
+  String toString() {
+    return "opponent decision: $opponent and strategy: $neededResult and points: ${evaluateResult()}";
+  }
 }
 
-enum RPS { rock, paper, scissor }
+enum Decision { rock, paper, scissor }
 
-RPS getEnumFromIdentifier(String identifier) {
+Decision geDecisionFromIdentifier(String identifier) {
   switch (identifier) {
     case "A":
-    case "X":
-      {
-        return RPS.rock;
-      }
+      return Decision.rock;
     case "B":
-    case "Y":
-      {
-        return RPS.paper;
-      }
+      return Decision.paper;
     case "C":
-    case "Z":
-      {
-        return RPS.scissor;
-      }
+      return Decision.scissor;
     default:
-      {
-        throw Exception("invalid input");
-      }
+      throw Exception("invalid input");
+  }
+}
+
+enum NeededResult { lose, draw, win }
+
+NeededResult getNeededResultFromString(String indentifier) {
+  switch (indentifier) {
+    case "X":
+      return NeededResult.lose;
+    case "Y":
+      return NeededResult.draw;
+    case "Z":
+      return NeededResult.win;
+    default:
+      throw Exception("invalid input");
   }
 }
