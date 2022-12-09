@@ -18,3 +18,20 @@ Future<List<Backpack>> loadBackpacks() async {
 
   return backpacks;
 }
+
+List<BackpackGroup> loadBackpackGroups(List<Backpack> backpacks) {
+  var groupList = List<BackpackGroup>.empty(growable: true);
+  var tempBackpackList = List<Backpack>.empty(growable: true);
+
+  for(int i = 0; i<backpacks.length; i++) {
+    // add new backpack to temp list
+      tempBackpackList.add(backpacks[i]);
+      // push temp list into new group when list contains 3 backpacks
+      if(tempBackpackList.length == 3) {
+        groupList.add(BackpackGroup(tempBackpackList));
+        tempBackpackList = List<Backpack>.empty(growable: true);
+      }
+  }
+
+  return groupList;
+}
