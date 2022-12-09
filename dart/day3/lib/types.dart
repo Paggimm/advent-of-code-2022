@@ -7,7 +7,7 @@ class Backpack {
   Backpack(this._compartment1, this._compartment2);
 
   int getErrorPriority() {
-    var errorItem = _GetErrorItem();
+    var errorItem = _getErrorItem();
     var itemList = createItemList();
 
     for(int i = 0; i<itemList.length; i++) {
@@ -21,7 +21,7 @@ class Backpack {
   }
 
   /// resolves which item is present in both compartments
-  String _GetErrorItem() {
+  String _getErrorItem() {
     // iterate over the first compartment
     for (int i = 0; i < _compartment1.length; i++) {
       var item1 = _compartment1[i];

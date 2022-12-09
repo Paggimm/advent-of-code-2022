@@ -1,6 +1,4 @@
-import 'dart:ffi';
-
-List<int> CalculateCalories(List<String> input) {
+List<int> calculateCalories(List<String> input) {
   final elfList = <List<int>>[];
   var tempElf = <int>[];
 
@@ -16,7 +14,7 @@ List<int> CalculateCalories(List<String> input) {
 
   final calorieList = List.generate(3, (index) => 0);
   for(var elf in elfList) {
-    var calorie = CalculateCaloriesForElf(elf);
+    var calorie = calculateCaloriesForElf(elf);
     if(calorie > calorieList[0]) {
       calorieList[2] = calorieList[1];
       calorieList[1] = calorieList[0];
@@ -34,7 +32,7 @@ List<int> CalculateCalories(List<String> input) {
   return calorieList;
 }
 
-int CalculateCaloriesForElf(List<int> elf) {
+int calculateCaloriesForElf(List<int> elf) {
   var result = 0;
 
   for(var calorie in elf) {
